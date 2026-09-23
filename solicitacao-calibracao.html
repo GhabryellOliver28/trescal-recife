@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitação de calibração - Trescal Recife</title>
+
+  <style>
+    :root {
+      --blue: #0876bd;
+      --blue-dark: #075f9b;
+      --text: #263746;
+      --muted: #6f7d8b;
+      --border: #d0d8e0;
+      --background: #f2f4f7;
+      --white: #ffffff;
+      --danger: #c62828;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    .topbar {
+      height: 58px;
+      background: var(--blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 25px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -1.5px;
+    }
+
+    .top-title {
+      font-size: 18px;
+      font-weight: 600;
+      border-left: 1px solid rgba(255,255,255,0.35);
+      padding-left: 25px;
+    }
+
+    .top-unit {
+      margin-left: auto;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 920px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 7px;
+      box-shadow: 0 2px 12px rgba(25,55,80,0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 25px 28px 22px;
+      background: linear-gradient(to bottom, #f8fbfd, #ffffff);
+      border-bottom: 1px solid #e2e7ec;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      margin-bottom: 6px;
+    }
+
+    .card-header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .card-header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .form-content {
+      padding: 28px;
+    }
+
+    .section-title {
+      color: var(--blue-dark);
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e7ec;
+    }
+
+    .client-box {
+      background: #f8fafc;
+      border: 1px solid #e1e7ed;
+      border-radius: 6px;
+      padding: 18px;
+      margin-bottom: 28px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #315b8e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: white;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input {
+      height: 46px;
+      padding: 0 13px;
+    }
+
+    textarea {
+      min-height: 105px;
+      padding: 12px 13px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(8,118,189,.10);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9aa6b1;
+    }
+
+    .help {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .equipment {
+      border: 1px solid #d7e0e7;
+      border-radius: 7px;
+      padding: 20px;
+      margin-bottom: 18px;
+      background: white;
+    }
+
+    .equipment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e5e9ed;
+    }
+
+    .equipment-title {
+      color: var(--blue-dark);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .4px;
+    }
+
+    .remove-button {
+      border: 1px solid #e0b7b7;
+      background: white;
+      color: var(--danger);
+      border-radius: 4px;
+      padding: 7px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .remove-button:hover {
+      background: #fff5f5;
+    }
+
+    .add-equipment {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 28px;
+    }
+
+    .btn-add {
+      border: 1px solid var(--blue);
+      background: white;
+      color: var(--blue);
+      border-radius: 5px;
+      padding: 11px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add:hover {
+      background: #f1f8fc;
+    }
+
+    .error-message {
+      display: none;
+      background: #fff3f3;
+      border: 1px solid #e4b8b8;
+      color: var(--danger);
+      border-radius: 5px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      padding-top: 8px;
+      border-top: 1px solid #e5e9ed;
+    }
+
+    .btn-clear,
+    .btn-whatsapp {
+      height: 46px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-clear {
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      background: white;
+      color: #5e6c78;
+    }
+
+    .btn-whatsapp {
+      padding: 0 23px;
+      border: none;
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      background: var(--blue-dark);
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 14px 16px;
+      background: #f7fafc;
+      border-left: 3px solid var(--blue);
+      color: #63717d;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      color: #8a96a1;
+      font-size: 11px;
+      padding: 20px 0 5px;
+    }
+
+    .input-error {
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 3px rgba(198,40,40,.08) !important;
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        height: auto;
+        min-height: 58px;
+        padding: 12px 16px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        font-size: 30px;
+      }
+
+      .top-title {
+        font-size: 15px;
+        padding-left: 12px;
+      }
+
+      .top-unit {
+        width: 100%;
+        margin-left: 0;
+        font-size: 12px;
+      }
+
+      .container {
+        margin: 18px auto;
+        padding: 0 10px;
+      }
+
+      .card-header,
+      .form-content {
+        padding: 20px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+      }
+
+      .btn-clear,
+      .btn-whatsapp {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">Trescal</div>
+    <div class="top-title">Solicitação de calibração</div>
+    <div class="top-unit">Trescal - Recife</div>
+  </header>
+
+
+  <main class="container">
+
+    <section class="card">
+
+      <div class="card-header">
+        <div class="eyebrow">CLIENTE</div>
+
+        <h1>Seja bem-vindo!</h1>
+
+        <p>
+          Informe seus dados e os equipamentos que serão enviados para calibração.
+        </p>
+      </div>
+
+
+      <div class="form-content">
+
+        <form id="equipmentForm">
+
+          <!-- CLIENTE -->
+          <div class="client-box">
+
+            <h2 class="section-title">
+              Dados do cliente
+            </h2>
+
+            <div class="form-grid">
+
+              <div>
+                <label for="clientName">
+                  Nome do cliente <span class="required">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  id="clientName"
+                  placeholder="Digite o nome do cliente"
+                  autocomplete="name"
+                >
+              </div>
+
+
+              <div>
+                <label for="clientCode">
+                  Código do cliente <span class="required">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  id="clientCode"
+                  placeholder="Digite o código do cliente"
+                  autocomplete="off"
+                >
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- EQUIPAMENTOS -->
+          <div>
+
+            <h2 class="section-title">
+              Equipamentos para calibração
+            </h2>
+
+            <div id="equipmentList"></div>
+
+
+            <div class="add-equipment">
+
+              <button
+                type="button"
+                class="btn-add"
+                id="addEquipmentButton"
+              >
+                + ADICIONAR OUTRO EQUIPAMENTO
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- ERRO -->
+          <div
+            id="errorMessage"
+            class="error-message"
+            role="alert"
+          ></div>
+
+
+          <!-- BOTÕES -->
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="btn-clear"
+              id="clearButton"
+            >
+              LIMPAR
+            </button>
+
+
+            <button
+              type="submit"
+              class="btn-whatsapp"
+            >
+              ENVIAR SOLICITAÇÃO ↗
+            </button>
+
+          </div>
+
+        </form>
+
+
+        <div class="notice">
+          <strong>Importante:</strong>
+          é necessário preencher pelo menos
+          <strong>1 equipamento</strong> antes de enviar.
+          O campo <strong>Equipamento</strong> e a
+          <strong>Tag de identificação</strong> são obrigatórios.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <footer>
+      Trescal - Unidade Recife &copy;
+      <span id="year"></span>
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    /* =====================================================
+       CONFIGURAÇÃO DO WHATSAPP
+    ===================================================== */
+
+    const WHATSAPP_COMERCIAL = "5581982040702";
+
+
+    /* =====================================================
+       ELEMENTOS
+    ===================================================== */
+
+    const form =
+      document.getElementById("equipmentForm");
+
+    const equipmentList =
+      document.getElementById("equipmentList");
+
+    const addEquipmentButton =
+      document.getElementById("addEquipmentButton");
+
+    const clearButton =
+      document.getElementById("clearButton");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
+    const clientNameInput =
+      document.getElementById("clientName");
+
+    const clientCodeInput =
+      document.getElementById("clientCode");
+
+    const yearElement =
+      document.getElementById("year");
+
+
+    yearElement.textContent =
+      new Date().getFullYear();
+
+
+    let equipmentCounter = 0;
+
+
+    /* =====================================================
+       ERRO
+    ===================================================== */
+
+    function showError(message, element = null) {
+
+      errorMessage.textContent = message;
+
+      errorMessage.classList.add("show");
+
+
+      if (element) {
+
+        element.classList.add("input-error");
+
+        element.focus();
+
+      }
+
+
+      errorMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+
+
+    function clearErrors() {
+
+      errorMessage.textContent = "";
+
+      errorMessage.classList.remove("show");
+
+
+      document
+        .querySelectorAll(".input-error")
+        .forEach(function(element) {
+
+          element.classList.remove("input-error");
+
+        });
+
+    }
+
+
+    /* =====================================================
+       CRIAR EQUIPAMENTO
+    ===================================================== */
+
+    function createEquipment() {
+
+      equipmentCounter++;
+
+
+      const equipment =
+        document.createElement("div");
+
+      equipment.className = "equipment";
+
+
+      equipment.innerHTML = `
+
+        <div class="equipment-header">
+
+          <div class="equipment-title">
+            EQUIPAMENTO ${String(equipmentCounter).padStart(2, "0")}
+          </div>
+
+          ${
+            equipmentCounter > 1
+              ? `
+                <button
+                  type="button"
+                  class="remove-button"
+                >
+                  Remover
+                </button>
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <div class="form-grid">
+
+          <div class="full">
+
+            <label>
+              Equipamento <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              class="equipment-name"
+              placeholder="Ex.: Multímetro"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Tag de identificação <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              class="equipment-tag"
+              placeholder="Ex.: TAG-4587"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Marca
+            </label>
+
+            <input
+              type="text"
+              class="equipment-brand"
+              placeholder='Se não souber, utilize "não consta"'
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Modelo
+            </label>
+
+            <input
+              type="text"
+              class="equipment-model"
+              placeholder='Se não souber, utilize "não consta"'
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Número de série
+            </label>
+
+            <input
+              type="text"
+              class="equipment-serial"
+              placeholder='Se não souber, utilize "S/N"'
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="full">
+
+            <label>
+              Ponto de calibração
+            </label>
+
+            <input
+              type="text"
+              class="equipment-point"
+              placeholder="Conforme método"
+              autocomplete="off"
+            >
+
+            <small class="help">
+              Se não informar, será utilizado "Conforme método".
+            </small>
+
+          </div>
+
+
+          <div class="full">
+
+            <label>
+              Observações importantes
+            </label>
+
+            <textarea
+              class="equipment-notes"
+              placeholder="Informe qualquer detalhe que deva ser considerado durante a calibração."
+            ></textarea>
+
+          </div>
+
+        </div>
+      `;
+
+
+      equipmentList.appendChild(equipment);
+
+
+      const removeButton =
+        equipment.querySelector(".remove-button");
+
+
+      if (removeButton) {
+
+        removeButton.addEventListener(
+          "click",
+          function() {
+
+            equipment.remove();
+
+            renumberEquipment();
+
+            clearErrors();
+
+          }
+        );
+
+      }
+
+
+      const firstInput =
+        equipment.querySelector(".equipment-name");
+
+
+      if (equipmentCounter > 1) {
+
+        firstInput.focus();
+
+        equipment.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      }
+
+    }
+
+
+    /* =====================================================
+       RENUMERAR
+    ===================================================== */
+
+    function renumberEquipment() {
+
+      const equipmentCards =
+        document.querySelectorAll(".equipment");
+
+
+      equipmentCounter =
+        equipmentCards.length;
+
+
+      equipmentCards.forEach(
+        function(card, index) {
+
+          const title =
+            card.querySelector(".equipment-title");
+
+          title.textContent =
+            "EQUIPAMENTO " +
+            String(index + 1).padStart(2, "0");
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       PEGAR DADOS
+    ===================================================== */
+
+    function getEquipmentData() {
+
+      const equipmentCards =
+        document.querySelectorAll(".equipment");
+
+
+      return Array.from(equipmentCards)
+        .map(function(card) {
+
+          return {
+
+            name:
+              card
+                .querySelector(".equipment-name")
+                .value
+                .trim(),
+
+            tag:
+              card
+                .querySelector(".equipment-tag")
+                .value
+                .trim(),
+
+            brand:
+              card
+                .querySelector(".equipment-brand")
+                .value
+                .trim() || "não consta",
+
+            model:
+              card
+                .querySelector(".equipment-model")
+                .value
+                .trim() || "não consta",
+
+            serial:
+              card
+                .querySelector(".equipment-serial")
+                .value
+                .trim() || "S/N",
+
+            point:
+              card
+                .querySelector(".equipment-point")
+                .value
+                .trim() || "Conforme método",
+
+            notes:
+              card
+                .querySelector(".equipment-notes")
+                .value
+                .trim() || "Nenhuma."
+
+          };
+
+        });
+
+    }
+
+
+    /* =====================================================
+       VALIDAR EQUIPAMENTOS
+    ===================================================== */
+
+    function validateEquipment() {
+
+      const equipmentCards =
+        document.querySelectorAll(".equipment");
+
+
+      /*
+        NÃO PERMITE ENVIAR SEM EQUIPAMENTO
+      */
+
+      if (equipmentCards.length === 0) {
+
+        showError(
+          "Adicione pelo menos 1 equipamento antes de enviar."
+        );
+
+        return false;
+
+      }
+
+
+      /*
+        VERIFICA CADA EQUIPAMENTO
+      */
+
+      for (
+        let index = 0;
+        index < equipmentCards.length;
+        index++
+      ) {
+
+        const card =
+          equipmentCards[index];
+
+
+        const nameInput =
+          card.querySelector(".equipment-name");
+
+
+        const tagInput =
+          card.querySelector(".equipment-tag");
+
+
+        /*
+          EQUIPAMENTO OBRIGATÓRIO
+        */
+
+        if (!nameInput.value.trim()) {
+
+          showError(
+            `Informe o equipamento ${index + 1}.`,
+            nameInput
+          );
+
+          return false;
+
+        }
+
+
+        /*
+          TAG OBRIGATÓRIA
+        */
+
+        if (!tagInput.value.trim()) {
+
+          showError(
+            `Informe a tag de identificação do equipamento ${index + 1}.`,
+            tagInput
+          );
+
+          return false;
+
+        }
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       GERAR MENSAGEM WHATSAPP
+    ===================================================== */
+
+    function generateWhatsAppMessage(
+      clientName,
+      clientCode,
+      equipments
+    ) {
+
+      let message =
+`SOLICITAÇÃO DE CALIBRAÇÃO
+Trescal - Unidade Recife
+
+DADOS DO CLIENTE
+Nome: ${clientName}
+Código do cliente: ${clientCode}
+
+DADOS DOS EQUIPAMENTOS
+`;
+
+
+      equipments.forEach(
+        function(equipment, index) {
+
+          message += `
+
+EQUIPAMENTO ${String(index + 1).padStart(2, "0")}
+Equipamento: ${equipment.name}
+Tag de identificação: ${equipment.tag}
+Marca: ${equipment.brand}
+Modelo: ${equipment.model}
+Número de série: ${equipment.serial}
+Ponto de calibração: ${equipment.point}
+Observações importantes:
+${equipment.notes}
+`;
+
+        }
+      );
+
+
+      message += `
+
+Solicitação enviada através do formulário do cliente.`;
+
+
+      return message;
+
+    }
+
+
+    /* =====================================================
+       ABRIR WHATSAPP
+    ===================================================== */
+
+    function openWhatsApp(message) {
+
+      const url =
+        "https://wa.me/" +
+        WHATSAPP_COMERCIAL +
+        "?text=" +
+        encodeURIComponent(message);
+
+
+      window.location.href = url;
+
+    }
+
+
+    /* =====================================================
+       ADICIONAR EQUIPAMENTO
+    ===================================================== */
+
+    addEquipmentButton.addEventListener(
+      "click",
+      function() {
+
+        clearErrors();
+
+        createEquipment();
+
+      }
+    );
+
+
+    /* =====================================================
+       LIMPAR
+    ===================================================== */
+
+    clearButton.addEventListener(
+      "click",
+      function() {
+
+        const confirmed =
+          confirm(
+            "Deseja realmente limpar todos os dados preenchidos?"
+          );
+
+
+        if (!confirmed) {
+          return;
+        }
+
+
+        clientNameInput.value = "";
+
+        clientCodeInput.value = "";
+
+        equipmentList.innerHTML = "";
+
+        equipmentCounter = 0;
+
+        clearErrors();
+
+        createEquipment();
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      }
+    );
+
+
+    /* =====================================================
+       ENVIAR
+    ===================================================== */
+
+    form.addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+        clearErrors();
+
+
+        /*
+          NOME DO CLIENTE
+        */
+
+        const clientName =
+          clientNameInput.value.trim();
+
+
+        if (!clientName) {
+
+          showError(
+            "Informe o nome do cliente.",
+            clientNameInput
+          );
+
+          return;
+
+        }
+
+
+        /*
+          CÓDIGO DO CLIENTE
+        */
+
+        const clientCode =
+          clientCodeInput.value.trim();
+
+
+        if (!clientCode) {
+
+          showError(
+            "Informe o código do cliente.",
+            clientCodeInput
+          );
+
+          return;
+
+        }
+
+
+        /*
+          PELO MENOS 1 EQUIPAMENTO
+        */
+
+        if (!validateEquipment()) {
+
+          return;
+
+        }
+
+
+        /*
+          PEGAR EQUIPAMENTOS
+        */
+
+        const equipments =
+          getEquipmentData();
+
+
+        /*
+          GERAR MENSAGEM
+        */
+
+        const message =
+          generateWhatsAppMessage(
+            clientName,
+            clientCode,
+            equipments
+          );
+
+
+        /*
+          ABRIR WHATSAPP
+        */
+
+        openWhatsApp(message);
+
+      }
+    );
+
+
+    /* =====================================================
+       INICIAR FORMULÁRIO COM 1 EQUIPAMENTO
+    ===================================================== */
+
+    createEquipment();
+
+  </script>
+
+</body>
+</html>

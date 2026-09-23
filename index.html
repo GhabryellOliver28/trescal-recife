@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trescal Recife | Cadastro de Cliente</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --blue: #0876bd;
+      --blue-dark: #075f9b;
+      --text: #263746;
+      --muted: #6f7d8b;
+      --border: #d0d8e0;
+      --background: #f2f4f7;
+      --white: #ffffff;
+      --danger: #c62828;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 20px;
+      color: #fff;
+      background: var(--blue);
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
+
+    .logo {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -2px;
+    }
+
+    .top-title {
+      padding-left: 20px;
+      border-left: 1px solid rgba(255,255,255,.35);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .top-unit {
+      margin-left: auto;
+      font-size: 13px;
+    }
+
+    .container {
+      width: min(920px, calc(100% - 32px));
+      margin: 45px auto 30px;
+    }
+
+    .card {
+      overflow: hidden;
+      background: var(--white);
+      border-radius: 7px;
+      box-shadow: 0 4px 20px rgba(28,49,70,.10);
+    }
+
+    .card-header {
+      padding: 28px 32px 24px;
+      border-bottom: 1px solid #e1e6eb;
+      background: linear-gradient(to right, #f8fbfd, #fff);
+    }
+
+    .tag {
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .8px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #1e2d3b;
+      font-size: 25px;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    form {
+      padding: 30px 32px 32px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px 24px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #315b8e;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    input {
+      height: 46px;
+      padding: 0 14px;
+    }
+
+    textarea {
+      min-height: 245px;
+      padding: 14px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0aab4;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #6da9d7;
+      box-shadow: 0 0 0 3px rgba(8,118,189,.12);
+    }
+
+    input.erro,
+    textarea.erro {
+      border-color: var(--danger);
+    }
+
+    .help {
+      display: block;
+      margin-top: 6px;
+      color: #7b8792;
+      font-size: 11px;
+    }
+
+    .message-box {
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid #d6e2eb;
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      background: #f8fbfd;
+    }
+
+    .message-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .message-title {
+      color: #315b8e;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .whatsapp {
+      padding: 5px 9px;
+      border-radius: 20px;
+      color: #168b45;
+      background: #e9f9ef;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .message-help {
+      margin: 0 0 10px;
+      color: #7b8792;
+      font-size: 11px;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 11px 13px;
+      border-radius: 5px;
+      color: #a52118;
+      background: #fef3f2;
+      font-size: 13px;
+    }
+
+    .error.show {
+      display: block;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid #e5e9ed;
+    }
+
+    button {
+      min-height: 44px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .btn-clear {
+      color: #4c5966;
+      background: #edf0f3;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      background: var(--blue);
+    }
+
+    .btn-whatsapp:hover {
+      background: var(--blue-dark);
+    }
+
+    .notice {
+      margin-top: 15px;
+      padding: 14px 16px;
+      border: 1px solid #d8e1e8;
+      border-radius: 6px;
+      color: #667584;
+      background: #fff;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 0 20px 25px;
+      text-align: center;
+      color: #8a96a2;
+      font-size: 11px;
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        height: auto;
+        min-height: 58px;
+        padding: 12px 18px;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+      }
+
+      .logo { font-size: 29px; }
+
+      .top-title {
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      .top-unit {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .container {
+        width: calc(100% - 20px);
+        margin-top: 20px;
+      }
+
+      .card-header, form {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .buttons {
+        flex-direction: column-reverse;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">Trescal</div>
+    <div class="top-title">Cadastro de cliente</div>
+    <div class="top-unit">Trescal - Recife</div>
+  </header>
+
+  <main class="container">
+
+    <section class="card">
+
+      <div class="card-header">
+        <div class="tag">COMERCIAL</div>
+        <h1>Enviar solicitação ao cliente</h1>
+        <p class="subtitle">
+          Cadastre os dados do cliente e envie a solicitação diretamente pelo WhatsApp.
+        </p>
+      </div>
+
+      <form id="clientForm">
+
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="clientName">
+              Nome do cliente <span class="required">*</span>
+            </label>
+
+            <input
+              id="clientName"
+              type="text"
+              placeholder="Digite o nome do cliente"
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="field">
+            <label for="clientCode">
+              Código do cliente <span class="required">*</span>
+            </label>
+
+            <input
+              id="clientCode"
+              type="text"
+              placeholder="Ex.: CLI-00125"
+            >
+          </div>
+
+          <div class="field">
+            <label for="clientPhone">
+              Número para contato <span class="required">*</span>
+            </label>
+
+            <input
+              id="clientPhone"
+              type="tel"
+              placeholder="(81) 99999-9999"
+              autocomplete="tel"
+            >
+
+            <small class="help">
+              Informe o DDD. Ex.: (81) 99999-9999
+            </small>
+          </div>
+
+        </div>
+
+        <div class="message-box">
+
+          <div class="message-header">
+            <div class="message-title">Mensagem para o WhatsApp</div>
+            <div class="whatsapp">WhatsApp</div>
+          </div>
+
+          <p class="message-help">
+            A mensagem abaixo pode ser alterada antes do envio.
+          </p>
+
+          <textarea id="messageText" spellcheck="true"></textarea>
+
+        </div>
+
+        <div id="errorMessage" class="error"></div>
+
+        <div class="buttons">
+
+          <button type="button" class="btn-clear" id="clearButton">
+            Limpar
+          </button>
+
+          <button type="submit" class="btn-whatsapp">
+            Enviar pelo WhatsApp
+            <span>↗</span>
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+    <div class="notice">
+      <strong>Importante:</strong>
+      o botão abrirá uma conversa do WhatsApp com o número informado e a mensagem preenchida.
+    </div>
+
+  </main>
+
+  <footer>
+    Trescal Recife &copy; <span id="year"></span>
+  </footer>
+
+
+  <script>
+
+    /*
+     * LINK TEMPORÁRIO
+     *
+     * Por enquanto usamos o site oficial da Trescal Brasil.
+     * Quando a página do cliente estiver pronta, basta alterar
+     * esta variável.
+     */
+    const LINK_PAGINA_CLIENTE = "https://www.trescal.com.br/";
+
+
+    const form = document.getElementById("clientForm");
+    const clientName = document.getElementById("clientName");
+    const clientCode = document.getElementById("clientCode");
+    const clientPhone = document.getElementById("clientPhone");
+    const messageText = document.getElementById("messageText");
+    const errorMessage = document.getElementById("errorMessage");
+    const clearButton = document.getElementById("clearButton");
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /*
+     * Cria o link que aparecerá na mensagem.
+     *
+     * Neste momento:
+     * https://www.trescal.com.br/
+     *
+     * Futuramente será substituído pela página do cliente.
+     */
+    function gerarLinkCliente() {
+      return LINK_PAGINA_CLIENTE;
+    }
+
+
+    /*
+     * Mensagem padrão.
+     *
+     * O comercial poderá alterar diretamente
+     * o conteúdo do campo de mensagem.
+     */
+    function gerarMensagemPadrao() {
+
+      const link = gerarLinkCliente();
+
+      return `Prezado(a) [Nome do cliente],
+
+Para melhorarmos o atendimento, a Trescal Unidade Recife necessita de algumas informações para aprimorar e agilizar o atendimento de seus equipamentos.
+
+Caso as informações tenham sido fornecidas previamente, por favor, desconsiderar esta mensagem.
+
+Para preencher as informações solicitadas, acesse o link abaixo:
+
+${link}
+
+Código do cliente: [Código do cliente]
+
+Atenciosamente,
+Trescal - Unidade Recife`;
+    }
+
+
+    /*
+     * Quando o nome ou código forem preenchidos,
+     * atualizamos somente os campos correspondentes
+     * caso eles ainda estejam com o texto padrão.
+     */
+    function atualizarCamposDaMensagem() {
+
+      let mensagem = messageText.value;
+
+      if (clientName.value.trim()) {
+        mensagem = mensagem.replace(
+          "[Nome do cliente]",
+          clientName.value.trim()
+        );
+      }
+
+      if (clientCode.value.trim()) {
+        mensagem = mensagem.replace(
+          "[Código do cliente]",
+          clientCode.value.trim()
+        );
+      }
+
+      messageText.value = mensagem;
+    }
+
+
+    /*
+     * Inicializa a mensagem.
+     */
+    messageText.value = gerarMensagemPadrao();
+
+
+    /*
+     * Se o comercial preencher o nome,
+     * a mensagem recebe o nome automaticamente.
+     */
+    clientName.addEventListener("input", function() {
+
+      let mensagem = messageText.value;
+
+      const antigo =
+        clientName.dataset.valorAnterior || "[Nome do cliente]";
+
+      if (mensagem.includes(antigo)) {
+        mensagem = mensagem.replace(
+          antigo,
+          this.value.trim() || "[Nome do cliente]"
+        );
+
+        messageText.value = mensagem;
+      }
+
+      clientName.dataset.valorAnterior =
+        this.value.trim() || "[Nome do cliente]";
+    });
+
+
+    /*
+     * Se o comercial preencher o código,
+     * a mensagem recebe o código automaticamente.
+     */
+    clientCode.addEventListener("input", function() {
+
+      let mensagem = messageText.value;
+
+      const antigo =
+        clientCode.dataset.valorAnterior || "[Código do cliente]";
+
+      if (mensagem.includes(antigo)) {
+        mensagem = mensagem.replace(
+          antigo,
+          this.value.trim() || "[Código do cliente]"
+        );
+
+        messageText.value = mensagem;
+      }
+
+      clientCode.dataset.valorAnterior =
+        this.value.trim() || "[Código do cliente]";
+    });
+
+
+    /*
+     * Máscara do telefone.
+     */
+    clientPhone.addEventListener("input", function() {
+
+      let numero =
+        this.value.replace(/\D/g, "");
+
+      if (
+        numero.startsWith("55") &&
+        numero.length > 11
+      ) {
+        numero = numero.substring(2);
+      }
+
+      if (numero.length > 10) {
+
+        numero = numero.substring(0, 11);
+
+        this.value = numero.replace(
+          /^(\d{2})(\d{5})(\d{0,4}).*/,
+          "($1) $2-$3"
+        );
+
+      } else {
+
+        numero = numero.substring(0, 10);
+
+        this.value = numero.replace(
+          /^(\d{2})(\d{4})(\d{0,4}).*/,
+          "($1) $2-$3"
+        );
+
+      }
+    });
+
+
+    /*
+     * Converte o telefone para o formato do WhatsApp.
+     */
+    function telefoneWhatsApp(telefone) {
+
+      let numero =
+        telefone.replace(/\D/g, "");
+
+      if (
+        numero.startsWith("55") &&
+        numero.length >= 12
+      ) {
+        return numero;
+      }
+
+      return "55" + numero;
+    }
+
+
+    /*
+     * Limpar.
+     */
+    clearButton.addEventListener("click", function() {
+
+      form.reset();
+
+      clientName.classList.remove("erro");
+      clientCode.classList.remove("erro");
+      clientPhone.classList.remove("erro");
+
+      errorMessage.classList.remove("show");
+
+      clientName.dataset.valorAnterior = "";
+      clientCode.dataset.valorAnterior = "";
+
+      messageText.value = gerarMensagemPadrao();
+
+    });
+
+
+    /*
+     * Enviar para WhatsApp.
+     */
+    form.addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      errorMessage.classList.remove("show");
+
+      clientName.classList.remove("erro");
+      clientCode.classList.remove("erro");
+      clientPhone.classList.remove("erro");
+      messageText.classList.remove("erro");
+
+
+      const nome =
+        clientName.value.trim();
+
+      const codigo =
+        clientCode.value.trim();
+
+      const telefone =
+        clientPhone.value.trim();
+
+      const mensagem =
+        messageText.value.trim();
+
+
+      if (!nome) {
+
+        clientName.classList.add("erro");
+
+        errorMessage.textContent =
+          "Informe o nome do cliente.";
+
+        errorMessage.classList.add("show");
+
+        clientName.focus();
+
+        return;
+      }
+
+
+      if (!codigo) {
+
+        clientCode.classList.add("erro");
+
+        errorMessage.textContent =
+          "Informe o código do cliente.";
+
+        errorMessage.classList.add("show");
+
+        clientCode.focus();
+
+        return;
+      }
+
+
+      if (!telefone) {
+
+        clientPhone.classList.add("erro");
+
+        errorMessage.textContent =
+          "Informe o número de WhatsApp do cliente.";
+
+        errorMessage.classList.add("show");
+
+        clientPhone.focus();
+
+        return;
+      }
+
+
+      if (!mensagem) {
+
+        messageText.classList.add("erro");
+
+        errorMessage.textContent =
+          "Informe a mensagem que será enviada.";
+
+        errorMessage.classList.add("show");
+
+        messageText.focus();
+
+        return;
+      }
+
+
+      const numeros =
+        telefone.replace(/\D/g, "");
+
+      let numeroLocal = numeros;
+
+      if (numeroLocal.startsWith("55")) {
+        numeroLocal =
+          numeroLocal.substring(2);
+      }
+
+
+      if (
+        numeroLocal.length !== 10 &&
+        numeroLocal.length !== 11
+      ) {
+
+        clientPhone.classList.add("erro");
+
+        errorMessage.textContent =
+          "Informe um telefone válido com DDD. Ex.: (81) 99999-9999.";
+
+        errorMessage.classList.add("show");
+
+        clientPhone.focus();
+
+        return;
+      }
+
+
+      const numeroWhatsApp =
+        telefoneWhatsApp(telefone);
+
+
+      /*
+       * IMPORTANTE:
+       * O texto que estiver no textarea neste momento
+       * é exatamente o texto que será levado para o WhatsApp.
+       */
+      const url =
+        "https://wa.me/" +
+        numeroWhatsApp +
+        "?text=" +
+        encodeURIComponent(mensagem);
+
+
+      window.open(url, "_blank");
+
+    });
+
+  </script>
+
+</body>
+</html>
